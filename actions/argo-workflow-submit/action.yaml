@@ -18,7 +18,7 @@ outputs:
     description: "Result of the workflow execution"
 runs:
   using: "docker"
-  image: "bitnami/argo-workflow-cli:3.4.11-debian-11-r27"
+  image: "docker://docker.io/bitnami/argo-workflow-cli:3.4.11-debian-11-r27"
   args:
     - submit
     - /github/workspace/${{ inputs.argo_workflow_file }}
