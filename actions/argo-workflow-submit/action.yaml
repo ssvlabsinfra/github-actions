@@ -1,0 +1,29 @@
+name: "Argo Workflow Executor"
+description: "Submit Argo workflows with specific parameters"
+inputs:
+  argo_workflow_file:
+    type: string
+    description: "Path to the Argo workflow file"
+    required: true
+  parameters:
+    type: array
+    description: "list of parameters to pass to the workflow in format paramKey=paramValue"
+    required: true
+  argo_namespace:
+    type: string
+    description: "namespace where the Argo workflow will be submitted"
+    default: "argo-events"
+outputs:
+  result:
+    description: "Result of the workflow execution"
+runs:
+  using: "docker"
+  image: "bitnami/argo-workflow-cli:3.4.11-debian-11-r27"
+  args:
+    - submit
+    - /github/workspace/${{ inputs.argo_workflow_file }}
+    - --namespace=${{ inputs.argo_namespace }}
+    - --generate-name="${GITHUB_REPOSITORY_NAME_PART}-argo-submit-${GITHUB_SHA_SHORT}-"
+    - ${{ inputs.parameters && inputs.parameters.map(param => `-p ${param}`).join(' ') }}
+    - --wait
+    - --log
