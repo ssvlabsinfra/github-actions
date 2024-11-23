@@ -21,11 +21,11 @@ runs:
   #image: "docker://docker.io/bitnami/argo-workflow-cli:3.4.11-debian-11-r27"
   image: "docker://quay.io/vrozsypalek/toolbox"
   args:
-    - echo /github/workspace/${{ inputs.argo_workflow_file }} --namespace=${{ inputs.argo_namespace }} --generate-name="${GITHUB_REPOSITORY_NAME_PART}-argo-submit-${GITHUB_SHA_SHORT}-" --parameter=${{ join(fromJSON(inputs.parameters),' --parameter=') }} --wait --log
-#    - /github/workspace/${{ inputs.argo_workflow_file }}
-#    - --namespace=${{ inputs.argo_namespace }}
-#    - --generate-name="${GITHUB_REPOSITORY_NAME_PART}-argo-submit-${GITHUB_SHA_SHORT}-"
-#    - --parameter=${{ join(fromJSON(inputs.parameters),' --parameter=') }}
-#    - --wait
-#    - --log
-#    - -v
+    - submit
+    - /github/workspace/${{ inputs.argo_workflow_file }}
+    - --namespace=${{ inputs.argo_namespace }}
+    - --generate-name="${GITHUB_REPOSITORY_NAME_PART}-argo-submit-${GITHUB_SHA_SHORT}-"
+    - --parameter=${{ join(fromJSON(inputs.parameters),' --parameter=') }}
+    - --wait
+    - --log
+    - -v
