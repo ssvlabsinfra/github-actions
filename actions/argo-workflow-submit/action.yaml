@@ -28,3 +28,4 @@ runs:
     - --parameter=${{ join(fromJSON(inputs.parameters),' --parameter=') }}
     - --wait
     - --log
+    - -v
