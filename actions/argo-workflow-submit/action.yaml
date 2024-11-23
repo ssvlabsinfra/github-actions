@@ -21,7 +21,6 @@ runs:
   image: "docker://docker.io/bitnami/argo-workflow-cli:3.4.11-debian-11-r27"
   #image: "docker://quay.io/vrozsypalek/toolbox"
   args:
-    - argo
     - submit
     - /github/workspace/${{ inputs.argo_workflow_file }}
     - --namespace=${{ inputs.argo_namespace }}
