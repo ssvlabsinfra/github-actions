@@ -27,4 +27,10 @@ runs:
      - /bin/bash
      - -c
      - |
-       argo submit /github/workspace/${{ inputs.argo_workflow_file }} --namespace=${{ inputs.argo_namespace }} --generate-name=${GITHUB_REPOSITORY#*/}-argo-submit-${GITHUB_SHA_SHORT}- -p appName=${GITHUB_REPOSITORY#*/} -p branch=${{ inputs.branch || env.GITHUB_REF_NAME }} -p shortSha=${GITHUB_SHA:0:5} -p appOrg=${GITHUB_REPOSITORY%%/*} --parameter=${{ join(fromJSON(inputs.parameters),' --parameter=') }} --wait --log
+       if [ -z "${{ inputs.branch }}" ]; then
+         BRANCH="${GITHUB_REF_NAME}"
+       else
+         BRANCH="${{ inputs.branch }}"
+       fi
+       echo "BRANCH is $BRANCH"
+       argo submit /github/workspace/${{ inputs.argo_workflow_file }} --namespace=${{ inputs.argo_namespace }} --generate-name=${GITHUB_REPOSITORY#*/}-argo-submit-${GITHUB_SHA_SHORT}- -p appName=${GITHUB_REPOSITORY#*/} -p branch=${BRANCH} -p shortSha=${GITHUB_SHA:0:5} -p appOrg=${GITHUB_REPOSITORY%%/*} --parameter=${{ join(fromJSON(inputs.parameters),' --parameter=') }} --wait --log
